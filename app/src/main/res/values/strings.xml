@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cinephilo</string>
+    <string name="tab_text_1">Mejor valoradas</string>
+    <string name="tab_text_2">Las que ya víste</string>
+    <string name="TMDB_API_KEY">4cd723d13eb1c886ec9dce776d9d2377</string>
+    <string name="TMDB_API">KLK</string>
+</resources>
