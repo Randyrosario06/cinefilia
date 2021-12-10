@@ -20,6 +20,10 @@ public class PageViewModel extends ViewModel {
         mIndex.setValue(index);
     }
 
+    public void prueba(int index) {
+        mIndex.setValue(index);
+    }
+
     public LiveData<String> getText() {
         return mText;
     }
