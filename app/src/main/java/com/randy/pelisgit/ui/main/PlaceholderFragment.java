@@ -45,7 +45,6 @@ public class PlaceholderFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
@@ -77,7 +76,7 @@ public class PlaceholderFragment extends Fragment {
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                //textView.setText(s);
             }
         });
         return root;
@@ -98,7 +97,6 @@ public class PlaceholderFragment extends Fragment {
                         }
                         boolean a = m.adult;
                        String t = m.title;
-
                     }
                 },
                 new Response.ErrorListener() {

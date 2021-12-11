@@ -63,7 +63,7 @@ public class Movie {
         try {
             this.vote_average = (double) json.get("vote_average");
         }catch (Exception e){
-            System.out.println("ERROOOOOOR");
+            System.out.println("ERROOOOOOR "+ this.original_title);
         }
 
         this.vote_count = (Integer) json.get("vote_count");
