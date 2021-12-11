@@ -22,15 +22,10 @@ public class Movie {
     public boolean video;
     public double vote_average;
     public int vote_count;
-
     private List<Movie> movies;
 
     public Movie(JSONArray jsonArray) {
         parseJson(jsonArray);
-    }
-
-    public Movie(JSONObject jsonObject) {
-
     }
 
     private void parseJson(JSONArray jsonArray) {
@@ -38,30 +33,60 @@ public class Movie {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                //Movie movieObj = new Movie(jsonObject.get("adult"),);
                 movies.add(new Movie(jsonObject));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
-    public Movie(boolean adult, String backdrop_path, List<Integer> genre_ids, int id, String original_language, String original_title,
-                 String overview, double popularity, String poster_path, String release_date, String title, boolean video, double vote_average,
-                 int vote_count) {
-        this.adult = adult;
-        this.backdrop_path = backdrop_path;
-        this.genre_ids = genre_ids;
-        this.id = id;
-        this.original_language = original_language;
-        this.original_title = original_title;
-        this.overview = overview;
-        this.popularity = popularity;
-        this.poster_path = poster_path;
-        this.release_date = release_date;
-        this.title = title;
-        this.video = video;
-        this.vote_average = vote_average;
-        this.vote_count = vote_count;
+
+    public Movie(JSONObject json) throws JSONException {
+        JSONArray jsonArray = (JSONArray) json.get("genre_ids");
+        List<Integer> jsonGenre = new ArrayList<>();
+        for(int i = 0; i < jsonArray.length(); i++){
+            Integer jsonObject = jsonArray.getInt(i);
+            jsonGenre.add(jsonObject);
+        }
+        this.adult = (boolean) json.get("adult");
+        this.backdrop_path = (String) json.get("backdrop_path");
+        this.genre_ids = jsonGenre;
+        this.id = (Integer) json.get("id");
+        this.original_language = (String) json.get("original_language");
+        this.original_title = (String) json.get("original_title");
+        this.overview = (String) json.get("overview");
+        this.popularity = (double) json.get("popularity");
+        this.poster_path = (String) json.get("poster_path");
+        this.release_date = (String) json.get("release_date");
+        this.title = (String) json.get("title");
+        this.video = (boolean) json.get("video");
+        try {
+            this.vote_average = (double) json.get("vote_average");
+        }catch (Exception e){
+            System.out.println("ERROOOOOOR");
+        }
+
+        this.vote_count = (Integer) json.get("vote_count");
     }
+
+//    public Movie(boolean adult, String backdrop_path, List<Integer> genre_ids, int id, String original_language, String original_title,
+//                 String overview, double popularity, String poster_path, String release_date, String title, boolean video, double vote_average,
+//                 int vote_count) {
+//        this.adult = adult;
+//        this.backdrop_path = backdrop_path;
+//        this.genre_ids = genre_ids;
+//        this.id = id;
+//        this.original_language = original_language;
+//        this.original_title = original_title;
+//        this.overview = overview;
+//        this.popularity = popularity;
+//        this.poster_path = poster_path;
+//        this.release_date = release_date;
+//        this.title = title;
+//        this.video = video;
+//        this.vote_average = vote_average;
+//        this.vote_count = vote_count;
+//    }
 
     public boolean isAdult() {
         return adult;

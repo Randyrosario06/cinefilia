@@ -1,5 +1,7 @@
 package com.randy.pelisgit.ui.main;
 
+import android.app.Application;
+import android.content.Context;
 import android.widget.Toast;
 
 import androidx.arch.core.util.Function;
@@ -10,9 +12,11 @@ import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.randy.pelisgit.Models.Movie;
 import com.randy.pelisgit.R;
 import com.randy.pelisgit.RequestController;
@@ -38,7 +42,8 @@ public class PageViewModel extends ViewModel {
         return mText;
     }
 
-    private void sendRequest() {
+    public void sendRequest() {
+
         JsonArrayRequest jsonArrayReq = new JsonArrayRequest(JSON_URL,
                 new Response.Listener<JSONArray>() {
                     @Override
