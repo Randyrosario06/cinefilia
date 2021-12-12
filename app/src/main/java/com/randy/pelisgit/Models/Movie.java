@@ -25,7 +25,6 @@ public class Movie implements Comparable<Movie>{
     public boolean seen;
 
     private List<Movie> movies;
-
     public Movie(JSONArray jsonArray) {
         parseJson(jsonArray);
     }
@@ -35,7 +34,6 @@ public class Movie implements Comparable<Movie>{
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                //Movie movieObj = new Movie(jsonObject.get("adult"),);
                 movies.add(new Movie(jsonObject));
             } catch (JSONException e) {
                 e.printStackTrace();

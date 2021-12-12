@@ -23,7 +23,7 @@ import java.util.List;
 public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.ViewHolder>{
     private List<Movie> movies;
     String POSTER_BASE_URL = "https://image.tmdb.org/t/p/original";
-
+    AppDataBase db;
     public PosterListAdapter(List<Movie> movies) {
         Collections.sort(movies, Collections.reverseOrder());
         this.movies = movies;
@@ -40,11 +40,21 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull PosterListAdapter.ViewHolder viewHolder, int position) {
+        db = Room.databaseBuilder(viewHolder.btnSeen.getContext(),
+                AppDataBase.class, "database-name").allowMainThreadQueries().build();
+
+        viewHolder.movieId.setText(String.valueOf(movies.get(position).getId()));
         viewHolder.title.setText(movies.get(position).getTitle());
         viewHolder.vote_average.setText(String.valueOf(movies.get(position).getVote_average()));
         Picasso.get().load(POSTER_BASE_URL+movies.get(position).getPoster_path()).into(viewHolder.poster);
         viewHolder.posterUrl.setText(POSTER_BASE_URL+movies.get(position).getPoster_path());
-        viewHolder.movieId.setText(String.valueOf(movies.get(position).getId()));
+
+        List<SeenMovie> verificar = db.movieDAO().loadMovieSeen(movies.get(position).getId());
+        if(!verificar.isEmpty()){
+            Button btnSeen = viewHolder.btnSeen;
+            btnSeen.setText("Vista");
+            btnSeen.setEnabled(false);
+        }
     }
 
     @Override
@@ -61,6 +71,7 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
             super(view);
             AppDataBase db = Room.databaseBuilder(view.getContext(),
                     AppDataBase.class, "database-name").allowMainThreadQueries().build();
+
             movieId = view.findViewById(R.id.movieId);
             title = view.findViewById(R.id.title);
             vote_average = view.findViewById(R.id.vote_average);
@@ -68,16 +79,18 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
             posterUrl = view.findViewById(R.id.posterUrl);
             btnSeen = view.findViewById(R.id.btnSeen);
 
-            btnSeen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    btnSeen.setText("Vista");
-                    btnSeen.setEnabled(false);
-                    SeenMovie seen = new SeenMovie(Integer.parseInt(movieId.getText().toString()),title.getText().toString(),
-                            vote_average.getText().toString(),posterUrl.getText().toString());
-                    db.movieDAO().insertMovie(seen);
-                }
-            });
+                btnSeen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnSeen.setText("Vista");
+                        btnSeen.setEnabled(false);
+                        SeenMovie seen = new SeenMovie(Integer.parseInt(movieId.getText().toString()),title.getText().toString(),
+                                vote_average.getText().toString(),posterUrl.getText().toString());
+                        db.movieDAO().insertMovie(seen);
+                    }
+                });
+
+
         }
     }
 }
