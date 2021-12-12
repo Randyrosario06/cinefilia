@@ -38,18 +38,14 @@ import org.json.JSONObject;
 public class PlaceholderFragment extends Fragment {
 
     String API_KEY="";
-    private static final String ARG_SECTION_NUMBER = "section_number";
     public String JSON_URL = "";
     RecyclerView recyclerView;
     PosterListAdapter posterListAdapter;
 
     public PlaceholderFragment(){ }
 
-    public static PlaceholderFragment newInstance(int index) {
+    public static PlaceholderFragment newInstance() {
         PlaceholderFragment fragment = new PlaceholderFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -63,6 +59,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        sendRequest();
     }
 
     @Override
@@ -70,7 +67,6 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        sendRequest();
         recyclerView = root.findViewById(R.id.posterList);
         recyclerView.setHasFixedSize(true);
         return root;

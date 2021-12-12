@@ -21,7 +21,7 @@ public class SeenFragment extends Fragment {
     public SeenFragment() {
         // Required empty public constructor
     }
-    public static SeenFragment newInstance(String param1, String param2) {
+    public static SeenFragment newInstance() {
         SeenFragment fragment = new SeenFragment();
         return fragment;
     }
@@ -43,13 +43,4 @@ public class SeenFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_seen, container, false);
     }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
-            //System.out.println("FRAGMENT 2");
-        }
-    }
-
 }
