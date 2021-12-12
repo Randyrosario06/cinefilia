@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -22,6 +24,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.randy.pelisgit.Models.Movie;
+import com.randy.pelisgit.PosterListAdapter;
 import com.randy.pelisgit.R;
 import com.randy.pelisgit.RequestController;
 
@@ -37,8 +40,9 @@ public class PlaceholderFragment extends Fragment {
     String API_KEY="";
     private static final String ARG_SECTION_NUMBER = "section_number";
     public String JSON_URL = "";
-
     private PageViewModel pageViewModel;
+    RecyclerView recyclerView;
+    PosterListAdapter posterListAdapter;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -64,7 +68,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sendRequest();
+
     }
 
     @Override
@@ -72,7 +76,10 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        final TextView textView = root.findViewById(R.id.section_label);
+        sendRequest();
+        recyclerView = root.findViewById(R.id.posterList);
+        recyclerView.setHasFixedSize(true);
+        //final TextView textView = root.findViewById(R.id.section_label);
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -92,11 +99,14 @@ public class PlaceholderFragment extends Fragment {
                         try {
                             JSONArray arr = (JSONArray) response.get("results");
                             m = new Movie(arr);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            posterListAdapter = new PosterListAdapter(m.getMovies());
+                            recyclerView.setAdapter(posterListAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        boolean a = m.adult;
-                       String t = m.title;
                     }
                 },
                 new Response.ErrorListener() {

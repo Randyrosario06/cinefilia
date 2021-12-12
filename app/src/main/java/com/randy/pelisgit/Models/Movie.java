@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Comparable<Movie>{
     public boolean adult;
     public String backdrop_path;
     public List<Integer> genre_ids;
@@ -198,5 +198,14 @@ public class Movie {
 
     public void setVote_count(int vote_count) {
         this.vote_count = vote_count;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    @Override
+    public int compareTo(Movie o) {
+        return String.valueOf(this.getVote_average()).compareTo(String.valueOf(o.getVote_average()));
     }
 }

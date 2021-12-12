@@ -24,10 +24,10 @@
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
         <com.google.android.material.tabs.TabLayout
-            android:background="@color/white"
+            android:background="#242733"
             app:tabIndicatorColor="@color/movie_red"
-            app:tabSelectedTextColor="@color/movie_red"
-            app:tabTextColor="#333333"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="#dddddd"
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
