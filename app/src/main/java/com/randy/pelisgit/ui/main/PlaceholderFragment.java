@@ -40,9 +40,10 @@ public class PlaceholderFragment extends Fragment {
     String API_KEY="";
     private static final String ARG_SECTION_NUMBER = "section_number";
     public String JSON_URL = "";
-    private PageViewModel pageViewModel;
     RecyclerView recyclerView;
     PosterListAdapter posterListAdapter;
+
+    public PlaceholderFragment(){ }
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -57,18 +58,11 @@ public class PlaceholderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         API_KEY = getString(R.string.TMDB_API_KEY);
         JSON_URL = "https://api.themoviedb.org/3/movie/popular?api_key="+ API_KEY +"&language=en-US&page=1";
-        pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        pageViewModel.setIndex(index);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -79,13 +73,6 @@ public class PlaceholderFragment extends Fragment {
         sendRequest();
         recyclerView = root.findViewById(R.id.posterList);
         recyclerView.setHasFixedSize(true);
-        //final TextView textView = root.findViewById(R.id.section_label);
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-            }
-        });
         return root;
     }
 
