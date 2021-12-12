@@ -53,16 +53,14 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView movieId;
-        TextView title;
+        TextView movieId,title, posterUrl, vote_average;
         ImageView poster;
-        TextView posterUrl;
-        TextView vote_average;
+
         Button btnSeen;
         public ViewHolder(View view) {
             super(view);
             AppDataBase db = Room.databaseBuilder(view.getContext(),
-                    AppDataBase.class, "database-name").build();
+                    AppDataBase.class, "database-name").allowMainThreadQueries().build();
             movieId = view.findViewById(R.id.movieId);
             title = view.findViewById(R.id.title);
             vote_average = view.findViewById(R.id.vote_average);
@@ -75,8 +73,9 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
                 public void onClick(View v) {
                     btnSeen.setText("Vista");
                     btnSeen.setEnabled(false);
-//                    db.movieDAO().insertMovie(new SeenMovie(Integer.parseInt(movieId.getText().toString()),title.getText().toString(),
-//                            vote_average.getText().toString(),posterUrl.getText().toString()));
+                    SeenMovie seen = new SeenMovie(Integer.parseInt(movieId.getText().toString()),title.getText().toString(),
+                            vote_average.getText().toString(),posterUrl.getText().toString());
+                    db.movieDAO().insertMovie(seen);
                 }
             });
         }

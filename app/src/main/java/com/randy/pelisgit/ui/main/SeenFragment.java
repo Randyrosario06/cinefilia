@@ -4,13 +4,23 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.randy.pelisgit.Interfaces.AppDataBase;
+import com.randy.pelisgit.Interfaces.MovieDAO;
+import com.randy.pelisgit.Models.SeenMovie;
+import com.randy.pelisgit.PosterListAdapter;
 import com.randy.pelisgit.R;
+import com.randy.pelisgit.SeenMoviesAdapter;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,8 +28,12 @@ import com.randy.pelisgit.R;
  * create an instance of this fragment.
  */
 public class SeenFragment extends Fragment {
-    String[] cars;
+    AppDataBase db;
+    MovieDAO movieDAO;
+    List<SeenMovie> movies;
     TextView nothingText;
+    RecyclerView recyclerView;
+    SeenMoviesAdapter seenMoviesAdapter;
     public SeenFragment() {}
 
     public static SeenFragment newInstance() {
@@ -35,8 +49,17 @@ public class SeenFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (cars.length <= 0){
+        movieDAO = db.movieDAO();
+        movies = movieDAO.getAll();
+
+        if (movies.size() <= 0){
             nothingText.setVisibility(View.VISIBLE);
+        }else{
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            seenMoviesAdapter = new SeenMoviesAdapter(movies);
+            recyclerView.setAdapter(seenMoviesAdapter);
         }
     }
 
@@ -45,8 +68,11 @@ public class SeenFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_seen, container, false);
+        recyclerView = root.findViewById(R.id.seenList);
+        recyclerView.setHasFixedSize(true);
+        db = Room.databaseBuilder(getActivity(),
+                AppDataBase.class, "database-name").allowMainThreadQueries().build();
         nothingText = root.findViewById(R.id.nothingSeenText);
-        cars = new String[]{};
         return root;
     }
 }

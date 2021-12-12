@@ -1,5 +1,8 @@
 package com.randy.pelisgit.ui.main;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +44,7 @@ public class PlaceholderFragment extends Fragment {
     public String JSON_URL = "";
     RecyclerView recyclerView;
     PosterListAdapter posterListAdapter;
-
+    TextView connectionText;
     public PlaceholderFragment(){ }
 
     public static PlaceholderFragment newInstance() {
@@ -59,7 +62,20 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sendRequest();
+        ConnectivityManager cm =
+                (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(isConnected){
+            connectionText.setVisibility(View.INVISIBLE);
+            sendRequest();
+            recyclerView.setVisibility(View.VISIBLE);
+        }else {
+            recyclerView.setVisibility(View.INVISIBLE);
+            connectionText.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -67,6 +83,7 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
+        connectionText = root.findViewById(R.id.connectionText);
         recyclerView = root.findViewById(R.id.posterList);
         recyclerView.setHasFixedSize(true);
         return root;

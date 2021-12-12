@@ -65,9 +65,10 @@ public class Movie implements Comparable<Movie>{
         try {
             this.vote_average = (double) json.get("vote_average");
         }catch (Exception e){
-            System.out.println("ERROOOOOOR "+ this.original_title);
+            int avg = (Integer) json.get("vote_average");
+            double parsed_avg = avg;
+            this.vote_average = parsed_avg;
         }
-
         this.vote_count = (Integer) json.get("vote_count");
     }
 
