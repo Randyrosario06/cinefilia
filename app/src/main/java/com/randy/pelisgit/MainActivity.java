@@ -5,8 +5,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 import androidx.appcompat.app.ActionBar;
+import androidx.room.Room;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.randy.pelisgit.Interfaces.AppDataBase;
 import com.randy.pelisgit.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {

@@ -5,11 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.SeenFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/seenList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/white"
-        android:text="FRAGMENT 2" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+    <TextView
+        android:id="@+id/nothingSeenText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No has visto nada aún?"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:visibility="invisible"
+        android:layout_gravity="center"/>
 
 </FrameLayout>

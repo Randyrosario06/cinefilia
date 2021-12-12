@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.randy.pelisgit.R;
 
@@ -17,10 +18,10 @@ import com.randy.pelisgit.R;
  * create an instance of this fragment.
  */
 public class SeenFragment extends Fragment {
+    String[] cars;
+    TextView nothingText;
+    public SeenFragment() {}
 
-    public SeenFragment() {
-        // Required empty public constructor
-    }
     public static SeenFragment newInstance() {
         SeenFragment fragment = new SeenFragment();
         return fragment;
@@ -34,13 +35,18 @@ public class SeenFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("FRAGMENT 2");
+        if (cars.length <= 0){
+            nothingText.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seen, container, false);
+        View root = inflater.inflate(R.layout.fragment_seen, container, false);
+        nothingText = root.findViewById(R.id.nothingSeenText);
+        cars = new String[]{};
+        return root;
     }
 }
