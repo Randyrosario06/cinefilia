@@ -55,6 +55,7 @@ public class SeenFragment extends Fragment {
         if (movies.size() <= 0){
             nothingText.setVisibility(View.VISIBLE);
         }else{
+            nothingText.setVisibility(View.INVISIBLE);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayoutManager);

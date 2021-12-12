@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ public class PlaceholderFragment extends Fragment {
     RecyclerView recyclerView;
     PosterListAdapter posterListAdapter;
     TextView connectionText;
+    boolean firstLoad = true;
+    Button btnTry;
     public PlaceholderFragment(){ }
 
     public static PlaceholderFragment newInstance() {
@@ -66,20 +69,25 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ConnectivityManager cm =
-                (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-        if(isConnected){
-            connectionText.setVisibility(View.INVISIBLE);
-            sendRequest();
-            recyclerView.setVisibility(View.VISIBLE);
-        }else {
-            recyclerView.setVisibility(View.INVISIBLE);
-            connectionText.setVisibility(View.VISIBLE);
-        }
+        try {
+            if (firstLoad) {
+                firstLoad = false;
+                ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+                if (isConnected) {
+                    connectionText.setVisibility(View.INVISIBLE);
+                    sendRequest();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    btnTry.setVisibility(View.INVISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    connectionText.setVisibility(View.VISIBLE);
+                    btnTry.setVisibility(View.VISIBLE);
+                }
+            }
+        }catch (Exception e){}
     }
 
     @Override
@@ -88,8 +96,30 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         connectionText = root.findViewById(R.id.connectionText);
+        btnTry = root.findViewById(R.id.btnTry);
         recyclerView = root.findViewById(R.id.posterList);
         recyclerView.setHasFixedSize(true);
+
+        btnTry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+                if (isConnected) {
+                    connectionText.setVisibility(View.INVISIBLE);
+                    sendRequest();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    btnTry.setVisibility(View.INVISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    connectionText.setVisibility(View.VISIBLE);
+                    btnTry.setVisibility(View.VISIBLE);
+                    Toast.makeText(getActivity(),"Aún no hay conexión",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return root;
     }
 
