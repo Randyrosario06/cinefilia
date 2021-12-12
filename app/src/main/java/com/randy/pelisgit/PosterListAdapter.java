@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.randy.pelisgit.Interfaces.AppDataBase;
+import com.randy.pelisgit.Interfaces.ItemClickListener;
 import com.randy.pelisgit.Models.Movie;
 import com.randy.pelisgit.Models.SeenMovie;
 import com.squareup.picasso.Picasso;
@@ -48,13 +49,6 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
         viewHolder.vote_average.setText(String.valueOf(movies.get(position).getVote_average()));
         Picasso.get().load(POSTER_BASE_URL+movies.get(position).getPoster_path()).into(viewHolder.poster);
         viewHolder.posterUrl.setText(POSTER_BASE_URL+movies.get(position).getPoster_path());
-
-        List<SeenMovie> verificar = db.movieDAO().loadMovieSeen(movies.get(position).getId());
-        if(!verificar.isEmpty()){
-            Button btnSeen = viewHolder.btnSeen;
-            btnSeen.setText("Vista");
-            btnSeen.setEnabled(false);
-        }
     }
 
     @Override
@@ -62,35 +56,20 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
         return movies.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView movieId,title, posterUrl, vote_average;
         ImageView poster;
-
         Button btnSeen;
+
         public ViewHolder(View view) {
             super(view);
-            AppDataBase db = Room.databaseBuilder(view.getContext(),
-                    AppDataBase.class, "database-name").allowMainThreadQueries().build();
-
             movieId = view.findViewById(R.id.movieId);
             title = view.findViewById(R.id.title);
             vote_average = view.findViewById(R.id.vote_average);
             poster = view.findViewById(R.id.poster);
             posterUrl = view.findViewById(R.id.posterUrl);
             btnSeen = view.findViewById(R.id.btnSeen);
-
-                btnSeen.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        btnSeen.setText("Vista");
-                        btnSeen.setEnabled(false);
-                        SeenMovie seen = new SeenMovie(Integer.parseInt(movieId.getText().toString()),title.getText().toString(),
-                                vote_average.getText().toString(),posterUrl.getText().toString());
-                        db.movieDAO().insertMovie(seen);
-                    }
-                });
-
-
         }
+
     }
 }

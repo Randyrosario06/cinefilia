@@ -42,7 +42,7 @@ android:layout_centerHorizontal="true">
     android:layout_toRightOf="@+id/poster"
     android:layout_marginTop="25dp"
     android:layout_marginLeft="5dp"
-    android:text="PALOMO HE LATA"
+    android:text="prueba"
     android:textColor="@color/white"
     android:textStyle="bold"
     android:textSize="16dp"
@@ -68,11 +68,11 @@ android:layout_centerHorizontal="true">
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Ya la viste?"
+        android:text="detalles"
         android:textAlignment="center"
         android:textSize="12dp"
         android:backgroundTint="@color/movie_red"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="8dp"/>
 </RelativeLayout>
 </androidx.cardview.widget.CardView>

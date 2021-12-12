@@ -12,6 +12,6 @@ public interface MovieDAO {
     @Query("SELECT * FROM SeenMovie")
     List<SeenMovie> getAll();
 
-    @Query("SELECT * FROM SeenMovie WHERE movie_id == :movieId")
-    List<SeenMovie> loadMovieSeen(int movieId);
+    @Query("SELECT * FROM SeenMovie WHERE title == :movieTitle")
+    List<SeenMovie> loadMovieSeen(String movieTitle);
 }

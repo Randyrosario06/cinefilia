@@ -1,6 +1,7 @@
 package com.randy.pelisgit.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,7 +27,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.randy.pelisgit.Interfaces.ItemClickListener;
+import com.randy.pelisgit.Interfaces.RecyclerItemClickListener;
 import com.randy.pelisgit.Models.Movie;
+import com.randy.pelisgit.MovieActivity;
 import com.randy.pelisgit.PosterListAdapter;
 import com.randy.pelisgit.R;
 import com.randy.pelisgit.RequestController;
@@ -104,6 +108,24 @@ public class PlaceholderFragment extends Fragment {
                             recyclerView.setLayoutManager(linearLayoutManager);
                             posterListAdapter = new PosterListAdapter(m.getMovies());
                             recyclerView.setAdapter(posterListAdapter);
+                            Movie finalM = m;
+                            recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener(){
+                                @Override public void onItemClick(View view, int position) {
+                                    Movie movie = finalM.getMovies().get(position);
+                                    Intent i = new Intent(getActivity(), MovieActivity.class);
+                                    i.putExtra("id", movie.getId());
+                                    i.putExtra("title", movie.getTitle());
+                                    i.putExtra("descp", movie.getOverview());
+                                    i.putExtra("vote_average", movie.getVote_average());
+                                    i.putExtra("poster", movie.getPoster_path());
+                                    startActivity(i);
+                                }
+
+                                @Override public void onLongItemClick(View view, int position) {
+                                    // do whatever
+                                }
+                              })
+                            );
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

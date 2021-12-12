@@ -3,6 +3,7 @@
     <string name="tab_text_1">Mejor valoradas</string>
     <string name="tab_text_2">Las que ya víste</string>
     <string name="TMDB_API_KEY">4cd723d13eb1c886ec9dce776d9d2377</string>
+    <string name="Poster_URL_Base">https://image.tmdb.org/t/p/original</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
