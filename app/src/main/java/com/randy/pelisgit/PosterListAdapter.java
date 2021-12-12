@@ -1,5 +1,6 @@
 package com.randy.pelisgit;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,16 +9,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.randy.pelisgit.Models.Movie;
-
-import java.util.Collection;
+import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
 public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.ViewHolder>{
     private List<Movie> movies;
-
+    String POSTER_BASE_URL = "https://image.tmdb.org/t/p/original";
     public PosterListAdapter(List<Movie> movies) {
         Collections.sort(movies, Collections.reverseOrder());
         this.movies = movies;
@@ -36,6 +35,8 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
     public void onBindViewHolder(@NonNull PosterListAdapter.ViewHolder viewHolder, int position) {
         viewHolder.title.setText(movies.get(position).getTitle());
         viewHolder.vote_average.setText(String.valueOf(movies.get(position).getVote_average()));
+        Picasso.get().load(POSTER_BASE_URL+movies.get(position).getPoster_path()).into(viewHolder.poster);
+        //Picasso.get().load(movies.get(position).getPoster_path()).into(viewHolder.poster);
     }
 
     @Override
@@ -50,8 +51,9 @@ public class PosterListAdapter extends RecyclerView.Adapter<PosterListAdapter.Vi
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
-            title = (TextView) view.findViewById(R.id.title);
-            vote_average = (TextView) view.findViewById(R.id.vote_average);
+            title = view.findViewById(R.id.title);
+            vote_average = view.findViewById(R.id.vote_average);
+            poster = view.findViewById(R.id.poster);
         }
     }
 }
